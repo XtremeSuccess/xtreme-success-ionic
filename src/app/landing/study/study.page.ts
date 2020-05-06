@@ -6,7 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./study.page.scss'],
 })
 export class StudyPage implements OnInit {
-
+  subjects: string[] = [
+    'Bengali',
+    'English',
+    'Physical Science',
+    'Life Science',
+    'Mathematics',
+    'History',
+    'Geography'
+  ];
   constructor() { }
 
   ngOnInit() {

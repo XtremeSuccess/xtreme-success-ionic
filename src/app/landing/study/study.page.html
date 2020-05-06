@@ -1,9 +1,26 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>study</ion-title>
+    <ion-title>Subjects</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content [fullscreen]="true">
+  <ion-header [translucent]="false" collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Subjects</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-card color="medium" *ngFor="let subject of subjects">
+    <ion-card-header>
+      <ion-card-title class="cardTitle">{{subject}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Adipisci asperiores aut deserunt eaque eos impedit iusto magni
+        minima natus, neque non, nostrum numquam officia quasi quisquam
+        quod, ut voluptate voluptatum.
+      </p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
