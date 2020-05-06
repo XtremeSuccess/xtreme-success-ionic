@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 export class HomePage {
   email: string = "";
   password: string = "";
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   submitLoginForm() {
     this.router.navigateByUrl('landing');
