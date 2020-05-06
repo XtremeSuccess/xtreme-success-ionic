@@ -1,0 +1,7 @@
+{
+  "name": "xtreme-success",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
