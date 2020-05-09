@@ -10,15 +10,15 @@ const routes: Routes = [
     children: [
       {
         path: 'study',
-        loadChildren: () => import('./study/study.module').then( m => m.StudyPageModule)
+        loadChildren: () => import('./study/study.module').then(m => m.StudyPageModule)
       },
       {
         path: 'exams',
-        loadChildren: () => import('./exams/exams.module').then( m => m.ExamsPageModule)
+        loadChildren: () => import('./exams/exams.module').then(m => m.ExamsPageModule)
       },
       {
         path: 'about',
-        loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+        loadChildren: () => import('./about/about.module').then(m => m.AboutPageModule)
       }
     ]
   },
@@ -35,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LandingPageRoutingModule {}
+export class LandingPageRoutingModule { }
