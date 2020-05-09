@@ -1,3 +1,4 @@
+import { CourseService } from './../../services/course/course.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
@@ -8,15 +9,21 @@ import { NavController } from '@ionic/angular';
 })
 export class CourseHomePage implements OnInit {
 
+  courses: any;
+
   constructor(
-    private readonly router: NavController
+    private readonly router: NavController,
+    private readonly courseService: CourseService
   ) { }
 
   ngOnInit() {
+    this.courseService.getAllCourses().subscribe((data: any) => {
+      this.courses = data;
+    })
   }
 
-  showCourseDetails() {
-    this.router.navigateForward('/courses/main/detail', { queryParams: { id: 1 } });
+  showCourseDetails(id: number) {
+    this.router.navigateForward('/courses/main/detail', { queryParams: { id: id } });
   }
 
 }

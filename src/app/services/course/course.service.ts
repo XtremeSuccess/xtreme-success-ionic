@@ -11,6 +11,10 @@ export class CourseService {
   ) { }
 
   getAllCourses() {
-    return this.http.get('http://localhost:1337/courses');
+    return this.http.get('http://192.168.2.4:1337/courses');
+  }
+
+  getSingleCourse(id: number) {
+    return this.http.get(`http://192.168.2.4:1337/courses/${id}`)
   }
 }
