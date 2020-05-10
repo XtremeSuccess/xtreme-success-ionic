@@ -1,3 +1,4 @@
+import { NavController } from '@ionic/angular';
 import { CourseService } from './../../services/course/course.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -14,7 +15,8 @@ export class CourseDetailPage implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly courseService: CourseService
+    private readonly courseService: CourseService,
+    private readonly navController: NavController
   ) { }
 
   ngOnInit() {
@@ -30,6 +32,10 @@ export class CourseDetailPage implements OnInit {
       this.courseName = data.name;
       console.log(data);
     })
+  }
+
+  backButtonClicked() {
+    this.navController.pop()
   }
 
 }

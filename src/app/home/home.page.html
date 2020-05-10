@@ -15,20 +15,22 @@
   <ion-grid class="loginForm">
     <ion-row>
       <ion-col>
-        <form (ngSubmit)="submitLoginForm()">
+        <form (ngSubmit)="submitLoginForm()" [formGroup]="loginForm">
           <ion-item lines="full">
             <ion-label position="floating">Email</ion-label>
-            <ion-input name="email" type="email" [(ngModel)]="email" required></ion-input>
+            <ion-input name="email" type="email" [(ngModel)]="email" formControlName="email" required></ion-input>
           </ion-item>
 
           <ion-item lines="full">
             <ion-label position="floating">Password</ion-label>
-            <ion-input name="password" type="password" [(ngModel)]="password" required></ion-input>
+            <ion-input name="password" type="password" [(ngModel)]="password" formControlName="password" required>
+            </ion-input>
           </ion-item>
 
           <ion-row>
             <ion-col>
-              <ion-button type="submit" color="primary" expand="block">Sign In</ion-button>
+              <ion-button [disabled]="!loginForm.valid" type="submit" color="primary" expand="block">Sign In
+              </ion-button>
             </ion-col>
           </ion-row>
         </form>

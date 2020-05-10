@@ -1,27 +1,30 @@
+import { AppComponent } from './app.component';
+import { AuthGuardService } from './services/auth/auth-guard.service';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    component: AppComponent,
     pathMatch: 'full'
   },
   {
     path: 'landing',
-    loadChildren: () => import('./landing/landing.module').then( m => m.LandingPageModule)
+    loadChildren: () => import('./landing/landing.module').then(m => m.LandingPageModule),
+    canActivate: [AuthGuardService]
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'courses',
-    loadChildren: () => import('./courses/courses.module').then( m => m.CoursesPageModule)
+    loadChildren: () => import('./courses/courses.module').then(m => m.CoursesPageModule)
   },
 ];
 

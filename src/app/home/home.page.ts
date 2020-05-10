@@ -1,17 +1,32 @@
-import { Component } from '@angular/core';
+import { AuthService } from './../services/auth/auth.service';
+import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   email: string = "";
   password: string = "";
-  constructor(private router: Router) { }
+
+  loginForm: FormGroup;
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) { }
+
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(6)]]
+    })
+  }
 
   submitLoginForm() {
-    this.router.navigateByUrl('landing');
+    this.authService.login(this.email, this.password).subscribe();
   }
 }
