@@ -1,3 +1,10 @@
+import { url as URL } from './../../../server-config';
+import { Course } from './../../models/courses/course';
+import { CourseService } from './../../services/course/course.service';
+import { Storage } from '@ionic/storage';
+import { AuthService } from './../../services/auth/auth.service';
+import { User } from './../../models/user/user';
+import { Subject } from './../../models/subjects/subject';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,18 +13,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./study.page.scss'],
 })
 export class StudyPage implements OnInit {
-  subjects: string[] = [
-    'Bengali',
-    'English',
-    'Physical Science',
-    'Life Science',
-    'Mathematics',
-    'History',
-    'Geography'
-  ];
-  constructor() { }
+  user: User;
+  subjects: Subject[];
+  url: string = URL;
+
+  constructor(
+    private courseService: CourseService,
+    private storage: Storage
+  ) { }
 
   ngOnInit() {
+    this.storage.get('user').then((user: string) => {
+      this.user = JSON.parse(user);
+      this.user.created_at = new Date(this.user.created_at).toLocaleDateString();
+      this.courseService.getSingleCourse(this.user.course.id).subscribe((course: Course) => {
+        this.subjects = course.subjects;
+      }, (error) => console.log(error));
+    });
   }
 
 }

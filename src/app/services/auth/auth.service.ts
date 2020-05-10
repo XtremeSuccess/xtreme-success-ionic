@@ -1,3 +1,4 @@
+import { User } from './../../models/user/user';
 import { Storage } from '@ionic/storage';
 import { Platform, AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
@@ -8,14 +9,12 @@ import { tap, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 const TOKEN_KEY = 'access_token';
-
+const USER = 'user';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   authenticationState = new BehaviorSubject(false);
-  user = null;
-
 
   constructor(
     private http: HttpClient,
@@ -32,14 +31,13 @@ export class AuthService {
   checkToken() {
     this.storage.get(TOKEN_KEY).then(token => {
       if (token) {
-        let decoded = this.helper.decodeToken(token);
         let isExpired = this.helper.isTokenExpired(token);
 
         if (!isExpired) {
-          this.user = decoded;
           this.authenticationState.next(true);
         } else {
           this.storage.remove(TOKEN_KEY);
+          this.storage.remove(USER);
         }
       }
     })
@@ -59,8 +57,9 @@ export class AuthService {
       password: password
     }).pipe(
       tap(res => {
+        console.log(res);
         this.storage.set(TOKEN_KEY, res['jwt']);
-        this.user = this.helper.decodeToken(res['jwt']);
+        this.storage.set(USER, JSON.stringify(res['user']));
         this.authenticationState.next(true);
       }),
       catchError(e => {
@@ -76,6 +75,7 @@ export class AuthService {
   }
 
   logout() {
+    this.storage.remove(USER);
     this.storage.remove(TOKEN_KEY).then(() => {
       this.authenticationState.next(false);
     });

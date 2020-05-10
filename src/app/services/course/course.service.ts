@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { url } from 'src/server-config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,10 @@ export class CourseService {
   ) { }
 
   getAllCourses() {
-    return this.http.get('http://192.168.2.4:1337/courses');
+    return this.http.get(`${url}`);
   }
 
   getSingleCourse(id: number) {
-    return this.http.get(`http://192.168.2.4:1337/courses/${id}`)
+    return this.http.get(`${url}/courses/${id}`)
   }
 }
