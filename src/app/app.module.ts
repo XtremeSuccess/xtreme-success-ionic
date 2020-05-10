@@ -1,9 +1,9 @@
-import { domain } from './../server-config';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule, Storage } from '@ionic/storage';
+import { MathJaxModule } from 'ngx-mathjax';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -17,10 +17,10 @@ import { AppRoutingModule } from './app-routing.module';
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
-      return storage.get('access_token')
+      return storage.get('access_token').then(value => { return value });
     },
-    whitelistedDomains: [domain],
-    blacklistedRoutes: [`${domain}/auth`]
+    whitelistedDomains: ['localhost:1337'],
+    blacklistedRoutes: [`localhost:1337/auth`]
   }
 }
 
@@ -39,12 +39,17 @@ export function jwtOptionsFactory(storage) {
         useFactory: jwtOptionsFactory,
         deps: [Storage],
       }
-    })
+    }),
+    MathJaxModule.forRoot({
+      version: '2.7.5',
+      config: 'TeX-AMS_HTML',
+      hostname: 'cdnjs.cloudflare.com'
+    }),
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
 })

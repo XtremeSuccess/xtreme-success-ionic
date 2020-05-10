@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="onBackButtonPressed()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{subject?.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="subject?.chapters">
+    <ion-item *ngFor="let chapter of subject.chapters">
+      <ion-label (click)="getChapterDetails(chapter.id)">
+        <p>{{chapter.name}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

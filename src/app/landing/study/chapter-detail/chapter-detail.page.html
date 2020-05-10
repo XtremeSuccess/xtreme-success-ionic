@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="onBackButtonPressed()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{chapter?.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div mathjax>
+    {{chapter?.chapter_details?.text}}
+  </div>
+</ion-content>

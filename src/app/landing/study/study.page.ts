@@ -1,3 +1,4 @@
+import { NavController } from '@ionic/angular';
 import { url as URL } from './../../../server-config';
 import { Course } from './../../models/courses/course';
 import { CourseService } from './../../services/course/course.service';
@@ -19,7 +20,8 @@ export class StudyPage implements OnInit {
 
   constructor(
     private courseService: CourseService,
-    private storage: Storage
+    private storage: Storage,
+    private readonly navController: NavController
   ) { }
 
   ngOnInit() {
@@ -30,6 +32,10 @@ export class StudyPage implements OnInit {
         this.subjects = course.subjects;
       }, (error) => console.log(error));
     });
+  }
+
+  showChapters(id: number) {
+    this.navController.navigateForward('/landing/tabs/study/chapters', { queryParams: { id: id } });
   }
 
 }

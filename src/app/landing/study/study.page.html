@@ -16,27 +16,25 @@
     </ion-toolbar>
   </ion-header>
   <ion-card *ngIf="user">
-    <img [src]="url+user.img.url" alt="">
-    <ion-card-header>
-      <ion-card-title>
-        {{user.username}}
-      </ion-card-title>
-      <ion-card-subtitle>
-        {{user.email}}
-      </ion-card-subtitle>
-    </ion-card-header>
     <ion-card-content>
-      <ion-text>
-        <p>Course Enrolled : {{user.course.name}}</p>
-        <p>Member Since : {{user.created_at}}</p>
-      </ion-text>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img [src]="url+user.img.url" alt="">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{user.username}}</h2>
+          <h3>{{user.email}}</h3>
+          <p>Course Enrolled : {{user.course.name}}</p>
+          <p>Member Since : {{user.created_at}}</p>
+        </ion-label>
+      </ion-item>
     </ion-card-content>
   </ion-card>
   <ion-list *ngIf="subjects">
     <ion-list-header>
       List of Available Subjects
     </ion-list-header>
-    <ion-item *ngFor="let subject of subjects">
+    <ion-item *ngFor="let subject of subjects" (click)="showChapters(subject.id)">
       <ion-label>
         <p>{{subject?.name}}</p>
       </ion-label>
