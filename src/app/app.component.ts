@@ -32,7 +32,7 @@ export class AppComponent {
         if (state) {
           this.router.navigate(['/landing']);
         } else {
-          this.router.navigate(['']);
+          this.router.navigate(['/home']);
         }
       });
     });

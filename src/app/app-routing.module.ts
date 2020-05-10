@@ -14,6 +14,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  },
+  {
     path: 'landing',
     loadChildren: () => import('./landing/landing.module').then(m => m.LandingPageModule),
     canActivate: [AuthGuardService]
