@@ -20,8 +20,8 @@ export function jwtOptionsFactory(storage) {
     tokenGetter: () => {
       return storage.get('access_token').then(value => { return value });
     },
-    whitelistedDomains: ['localhost:1337'],
-    blacklistedRoutes: [`localhost:1337/auth`]
+    whitelistedDomains: ['192.168.2.4:1337'],
+    blacklistedRoutes: [`192.168.2.4:1337/auth`]
   }
 }
 
