@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -45,6 +46,7 @@ export function jwtOptionsFactory(storage) {
       config: 'TeX-AMS_HTML',
       hostname: 'cdnjs.cloudflare.com'
     }),
+    MarkdownModule.forRoot()
   ],
   providers: [
     StatusBar,

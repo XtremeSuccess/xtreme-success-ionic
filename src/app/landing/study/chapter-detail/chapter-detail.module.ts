@@ -1,3 +1,4 @@
+import { MarkdownModule } from 'ngx-markdown';
 import { MathJaxModule } from 'ngx-mathjax';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -16,6 +17,7 @@ import { ChapterDetailPage } from './chapter-detail.page';
     IonicModule,
     ChapterDetailPageRoutingModule,
     MathJaxModule.forChild(),
+    MarkdownModule.forChild()
   ],
   declarations: [ChapterDetailPage]
 })
