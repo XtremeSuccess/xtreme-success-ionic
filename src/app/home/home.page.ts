@@ -14,7 +14,6 @@ export class HomePage implements OnInit {
 
   loginForm: FormGroup;
   constructor(
-    private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService
   ) { }
