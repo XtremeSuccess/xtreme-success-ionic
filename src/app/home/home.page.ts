@@ -9,8 +9,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  email: string = "";
-  password: string = "";
 
   loginForm: FormGroup;
   constructor(
@@ -26,6 +24,6 @@ export class HomePage implements OnInit {
   }
 
   submitLoginForm() {
-    this.authService.login(this.email, this.password).subscribe();
+    this.authService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value).subscribe();
   }
 }
