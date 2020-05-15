@@ -31,12 +31,12 @@ export class CoursesPage implements OnInit {
 
   payWithRazorpay(course: Course) {
     var options = {
-      description: 'Credits towards consultation',
+      description: 'Subscribe to a Course',
       image: 'https://i.imgur.com/3g7nmJC.png',
-      currency: "INR", // your 3 letter currency code
+      currency: "INR",
       key: "rzp_test_1DP5mmOlF5G5ag", // your Key Id from Razorpay dashboard
-      amount: 100, // Payment amount in smallest denomiation e.g. cents for USD
-      name: 'Razorpay',
+      amount: course.price * 100,
+      name: course.name,
       prefill: {
         email: 'test@razorpay.com',
         contact: '9990009991',
