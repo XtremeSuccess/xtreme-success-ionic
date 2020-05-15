@@ -30,8 +30,10 @@ export class AppComponent {
       this.authService.authenticationState.subscribe(state => {
         console.log(state);
         if (state) {
+          console.log('Navigating to login');
           this.router.navigate(['/landing']);
         } else {
+          console.log('Navigating to home');
           this.router.navigate(['/home']);
         }
       });

@@ -19,7 +19,11 @@ const routes: Routes = [
       {
         path: 'about',
         loadChildren: () => import('./about/about.module').then(m => m.AboutPageModule)
-      }
+      },
+      {
+        path: 'courses',
+        loadChildren: () => import('./courses/courses.module').then(m => m.CoursesPageModule)
+      },
     ]
   },
   {
@@ -27,8 +31,6 @@ const routes: Routes = [
     redirectTo: '/landing/tabs/study',
     pathMatch: 'full'
   },
-
-
 ];
 
 @NgModule({
