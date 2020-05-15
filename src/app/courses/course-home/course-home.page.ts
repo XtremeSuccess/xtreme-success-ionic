@@ -17,9 +17,11 @@ export class CourseHomePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('courses home module')
     this.courseService.getAllCourses().subscribe((data: any) => {
       this.courses = data;
-    })
+    });
+
   }
 
   showCourseDetails(id: number) {

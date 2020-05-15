@@ -13,6 +13,7 @@ export class CoursesPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('Courses module loaded');
   }
 
 }
