@@ -16,10 +16,11 @@
     </ion-toolbar>
   </ion-header>
   <ion-list *ngIf="courses">
-    <ion-item *ngFor="let course of courses" (click)="payWithRazorpay(course)">
+    <ion-item *ngFor="let course of courses" (click)="showCourseDetails(course.id)">
       <ion-label>
         {{course?.name}}
       </ion-label>
+      <ion-badge slot="end" color="warning">Rs. <s>{{course.price * 1.50}}</s> {{course.price}} only</ion-badge>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="backButtonClicked()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{courseName}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-text>
+    <p class="text-margined description-text">
+      {{course?.description}}
+    </p>
+  </ion-text>
+  <ion-text>
+    <p class="text-margined discount-text"><s>Rs. {{course?.price * 1.50}}</s></p>
+    <h1 class="text-margined price-text">Rs. {{course?.price}} only</h1>
+  </ion-text>
+  <ion-button class="buy-button" color="danger" expand="block" (click)="payWithRazorpay(course)">
+    Buy Now
+  </ion-button>
+  <ion-list *ngIf="course?.subjects">
+    <ion-list-header>
+      <ion-label>
+        List of Subjects Covered
+      </ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let subject of course.subjects">
+      <ion-label>
+        {{subject.name}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
