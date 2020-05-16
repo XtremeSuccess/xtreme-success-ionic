@@ -1,3 +1,6 @@
+import { AuthService } from './../../services/auth/auth.service';
+import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExamsPage implements OnInit {
   today: string = new Date().toLocaleDateString();
-  constructor() { }
+  constructor(
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
   }
 
+  logout() {
+    this.authService.logout();
+  }
 }

@@ -1,3 +1,5 @@
+import { AuthService } from './../../services/auth/auth.service';
+import { Storage } from '@ionic/storage';
 import { Course } from './../../models/courses/course';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
@@ -14,6 +16,7 @@ export class CoursesPage implements OnInit {
 
   constructor(
     private readonly router: NavController,
+    private readonly authService: AuthService,
     private readonly courseService: CourseService
   ) { }
 
@@ -25,5 +28,9 @@ export class CoursesPage implements OnInit {
 
   showCourseDetails(id: number) {
     this.router.navigateForward('/course', { queryParams: { id: id } });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

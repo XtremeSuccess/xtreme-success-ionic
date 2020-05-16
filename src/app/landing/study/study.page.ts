@@ -1,11 +1,11 @@
+import { AuthService } from './../../services/auth/auth.service';
 import { SubscriptionService } from './../../services/subscription/subscription.service';
 import { NavController } from '@ionic/angular';
 import { url as URL } from './../../../server-config';
 import { Course } from './../../models/courses/course';
 import { CourseService } from './../../services/course/course.service';
 import { Storage } from '@ionic/storage';
-import { AuthService } from './../../services/auth/auth.service';
-import { User, UserDetail } from './../../models/user/user';
+import { User } from './../../models/user/user';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'src/app/models/subscription/subscription';
 
@@ -20,6 +20,7 @@ export class StudyPage implements OnInit {
   url: string = URL;
 
   constructor(
+    private authService: AuthService,
     private subscriptionService: SubscriptionService,
     private courseService: CourseService,
     private storage: Storage,
@@ -44,4 +45,8 @@ export class StudyPage implements OnInit {
     this.navController.navigateForward('/landing/tabs/study/chapters', { queryParams: { id: id } });
   }
 
+  logout() {
+    console.log('logout clicked');
+    this.authService.logout();
+  }
 }
