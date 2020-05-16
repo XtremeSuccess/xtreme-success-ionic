@@ -29,4 +29,8 @@ export class UserService {
       mobile_number: data.mobile_number,
     });
   }
+
+  updateUserDetails(id: number, data: any) {
+    return this.http.put(`${url}/user-details/${id}`, data);
+  }
 }

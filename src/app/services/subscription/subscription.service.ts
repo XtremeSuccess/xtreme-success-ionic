@@ -12,4 +12,8 @@ export class SubscriptionService {
   getSubscription(id: number) {
     return this.http.get(`${url}/subscriptions/${id}`);
   }
+
+  setSubscription(data: any) {
+    return this.http.post(`${url}/subscriptions`, data);
+  }
 }

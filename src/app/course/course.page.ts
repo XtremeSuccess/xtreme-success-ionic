@@ -1,10 +1,14 @@
+import { UserService } from './../services/user/user.service';
+import { url } from './../../server-config';
+import { SubscriptionService } from './../services/subscription/subscription.service';
 import { Storage } from '@ionic/storage';
-import { User } from './../models/user/user';
+import { User, UserDetail } from './../models/user/user';
 import { Course } from './../models/courses/course';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../services/course/course.service';
 import { NavController, AlertController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
 declare var RazorpayCheckout: any;
 
@@ -20,11 +24,16 @@ export class CoursePage implements OnInit {
   course: Course;
   user: User;
 
+  purchased: boolean = false;
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly courseService: CourseService,
+    private readonly subscriptionService: SubscriptionService,
+    private readonly userService: UserService,
     private readonly storage: Storage,
     private readonly navController: NavController,
+    private readonly ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -82,15 +91,38 @@ export class CoursePage implements OnInit {
       }).then(alert => alert.present());
     }
 
-    var successCallback = function (payment_id) {
-      showAlert('Success', 'payment_id: ' + payment_id);
-    };
+    const onSuccss = (payment_id) => {
+      let date: Date = new Date();
+      let sub: any = {
+        payment_id: payment_id,
+        start_date: date.toISOString(),
+        end_date: new Date(date.setFullYear(date.getFullYear() + this.course.duration)).toISOString(),
+        course: course.id
+      }
+      this.subscriptionService.setSubscription(sub).subscribe((data: any) => {
+        this.updateUserDetails(this.user.user_detail.id, { subscription: data.id });
+
+      });
+    }
 
     var cancelCallback = function (error) {
       let msg: string = error.description + ' (Error ' + error.code + ')'
       showAlert('Payment Failed', msg);
     };
 
-    RazorpayCheckout.open(options, successCallback, cancelCallback);
+    RazorpayCheckout.open(options, onSuccss, cancelCallback);
+  }
+
+  updateUserDetails(id: number, data: any) {
+    this.userService.updateUserDetails(id, data).subscribe((userDetail: UserDetail) => {
+      console.log(userDetail);
+      this.user.user_detail.subscription = data.subscription;
+      this.storage.remove('user');
+      console.log(this.user);
+      this.storage.set('user', JSON.stringify(this.user)).then(() => {
+        console.log('user details updated');
+        window.location.replace(window.location.origin);
+      });
+    });
   }
 }

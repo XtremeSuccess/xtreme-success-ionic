@@ -19,7 +19,7 @@
     <ion-card-content>
       <ion-item>
         <ion-avatar slot="start">
-          <img [src]="url+user.user_detail.img.url" alt="">
+          <img [src]="url+user?.user_detail.img?.url" alt="">
         </ion-avatar>
         <ion-label>
           <h2>{{user.user_detail.firstname}} {{user.user_detail.lastname}}</h2>

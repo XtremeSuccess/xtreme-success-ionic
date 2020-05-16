@@ -20,6 +20,9 @@
   <ion-button class="buy-button" color="danger" expand="block" (click)="payWithRazorpay(course)">
     Buy Now
   </ion-button>
+  <ion-button *ngIf="purchased" class="buy-button" color="success" expand="block" routerLink="/landing/tabs/study">
+    Go to Study
+  </ion-button>
   <ion-list *ngIf="course?.subjects">
     <ion-list-header>
       <ion-label>
