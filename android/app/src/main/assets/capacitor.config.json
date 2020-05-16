@@ -1,8 +1,0 @@
-{
-  "appId": "com.webedutech.xtreme_success",
-  "appName": "Xtreme Success",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "cordova": {}
-}

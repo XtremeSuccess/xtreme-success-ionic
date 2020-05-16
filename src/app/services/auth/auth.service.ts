@@ -57,7 +57,6 @@ export class AuthService {
       password: password
     }).pipe(
       tap(res => {
-        console.log(res);
         this.storage.set(TOKEN_KEY, res['jwt']);
         this.storage.set(USER, JSON.stringify(res['user']));
         this.authenticationState.next(true);

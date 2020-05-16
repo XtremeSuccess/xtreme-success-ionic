@@ -1,7 +1,8 @@
 {
   "name": "Xtreme Success",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

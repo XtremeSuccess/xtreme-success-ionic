@@ -15,30 +15,47 @@
   <ion-grid class="loginForm">
     <ion-row>
       <ion-col>
-        <form (ngSubmit)="submitRegisterForm()">
+        <form (ngSubmit)="submitRegisterForm()" [formGroup]="registerForm">
           <ion-item lines="full">
             <ion-label position="floating">First Name</ion-label>
-            <ion-input name="first_name" type="text" [(ngModel)]="firstName" required></ion-input>
+            <ion-input name="firstname" type="text" formControlName="firstname" required></ion-input>
           </ion-item>
 
           <ion-item lines="full">
             <ion-label position="floating">Last Name</ion-label>
-            <ion-input name="last_name" type="text" [(ngModel)]="lastName" required></ion-input>
+            <ion-input name="lastname" type="text" formControlName="lastname" required></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">Mobile Number</ion-label>
+            <ion-input type="text" name="mobile_number" formControlName="mobile_number"></ion-input>
           </ion-item>
 
           <ion-item lines="full">
             <ion-label position="floating">Email</ion-label>
-            <ion-input name="email" type="email" [(ngModel)]="email" required></ion-input>
+            <ion-input name="email" type="email" formControlName="email" required></ion-input>
           </ion-item>
 
           <ion-item lines="full">
+            <ion-label position="floating">Parent's Name</ion-label>
+            <ion-input name="parent_name" type="text" formControlName="parent_name" required></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">School Name</ion-label>
+            <ion-input type="text" name="school_name" formControlName="school_name"></ion-input>
+          </ion-item>
+
+
+
+          <ion-item lines="full">
             <ion-label position="floating">Password</ion-label>
-            <ion-input name="password" type="password" [(ngModel)]="password" required></ion-input>
+            <ion-input name="password" type="password" formControlName="password" required></ion-input>
           </ion-item>
 
           <ion-item lines="full">
             <ion-label position="floating">Confirm Password</ion-label>
-            <ion-input name="confirm_password" type="password" [(ngModel)]="confirmPassword" required></ion-input>
+            <ion-input name="confirm_password" type="password" required></ion-input>
           </ion-item>
 
           <ion-row>

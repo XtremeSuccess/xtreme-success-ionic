@@ -12,7 +12,7 @@ export class CourseService {
   ) { }
 
   getAllCourses() {
-    return this.http.get(`${url}`);
+    return this.http.get(`${url}/courses`);
   }
 
   getSingleCourse(id: number) {

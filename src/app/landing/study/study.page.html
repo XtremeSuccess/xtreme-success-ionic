@@ -19,22 +19,22 @@
     <ion-card-content>
       <ion-item>
         <ion-avatar slot="start">
-          <img [src]="url+user.img.url" alt="">
+          <img [src]="url+user.user_detail.img.url" alt="">
         </ion-avatar>
         <ion-label>
-          <h2>{{user.username}}</h2>
+          <h2>{{user.user_detail.firstname}} {{user.user_detail.lastname}}</h2>
           <h3>{{user.email}}</h3>
-          <p>Course Enrolled : {{user.course.name}}</p>
+          <p>Course Enrolled : {{course?.name}}</p>
           <p>Member Since : {{user.created_at}}</p>
         </ion-label>
       </ion-item>
     </ion-card-content>
   </ion-card>
-  <ion-list *ngIf="subjects">
+  <ion-list *ngIf="course?.subjects">
     <ion-list-header>
       List of Available Subjects
     </ion-list-header>
-    <ion-item *ngFor="let subject of subjects" (click)="showChapters(subject.id)">
+    <ion-item *ngFor="let subject of course.subjects" (click)="showChapters(subject.id)">
       <ion-label>
         <p>{{subject?.name}}</p>
       </ion-label>

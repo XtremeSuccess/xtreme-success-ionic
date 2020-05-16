@@ -1,11 +1,16 @@
 <ion-tabs>
   <ion-tab-bar>
-    <ion-tab-button tab="study">
+    <ion-tab-button tab="study" *ngIf="user?.user_detail.subscription">
       <ion-icon name="book"></ion-icon>
       <ion-label>Dashboard</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="exams">
+    <ion-tab-button tab="courses" *ngIf="!user?.user_detail.subscription">
+      <ion-icon name="book"></ion-icon>
+      <ion-label>Courses</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="exams" *ngIf="user?.user_detail.subscription">
       <ion-icon name="checkbox"></ion-icon>
       <ion-label>Exams</ion-label>
       <ion-badge color="danger">6</ion-badge>
