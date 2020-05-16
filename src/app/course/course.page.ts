@@ -1,14 +1,12 @@
 import { UserService } from './../services/user/user.service';
-import { url } from './../../server-config';
 import { SubscriptionService } from './../services/subscription/subscription.service';
 import { Storage } from '@ionic/storage';
 import { User, UserDetail } from './../models/user/user';
 import { Course } from './../models/courses/course';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CourseService } from '../services/course/course.service';
 import { NavController, AlertController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
 
 declare var RazorpayCheckout: any;
 
@@ -33,7 +31,6 @@ export class CoursePage implements OnInit {
     private readonly userService: UserService,
     private readonly storage: Storage,
     private readonly navController: NavController,
-    private readonly ngZone: NgZone
   ) { }
 
   ngOnInit() {
@@ -51,7 +48,6 @@ export class CoursePage implements OnInit {
     this.courseService.getSingleCourse(id).subscribe((data: any) => {
       this.course = data;
       this.courseName = data.name;
-      console.log(data);
     })
   }
 
@@ -101,7 +97,6 @@ export class CoursePage implements OnInit {
       }
       this.subscriptionService.setSubscription(sub).subscribe((data: any) => {
         this.updateUserDetails(this.user.user_detail.id, { subscription: data.id });
-
       });
     }
 
@@ -115,12 +110,9 @@ export class CoursePage implements OnInit {
 
   updateUserDetails(id: number, data: any) {
     this.userService.updateUserDetails(id, data).subscribe((userDetail: UserDetail) => {
-      console.log(userDetail);
       this.user.user_detail.subscription = data.subscription;
       this.storage.remove('user');
-      console.log(this.user);
       this.storage.set('user', JSON.stringify(this.user)).then(() => {
-        console.log('user details updated');
         window.location.replace(window.location.origin);
       });
     });
