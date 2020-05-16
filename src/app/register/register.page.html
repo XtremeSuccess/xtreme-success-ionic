@@ -15,7 +15,7 @@
   <ion-grid class="loginForm">
     <ion-row>
       <ion-col>
-        <form (ngSubmit)="submitRegisterForm()">
+        <form (ngSubmit)="submitRegisterForm()" [formGroup]="registerForm">
           <ion-item lines="full">
             <ion-label position="floating">First Name</ion-label>
             <ion-input name="firstname" type="text" formControlName="firstname" required></ion-input>
