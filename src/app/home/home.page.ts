@@ -1,5 +1,6 @@
+import { Platform } from '@ionic/angular';
 import { AuthService } from './../services/auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -8,10 +9,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
-
+export class HomePage implements OnInit, AfterViewInit, OnDestroy {
+  backButtonSubscription: any;
   loginForm: FormGroup;
   constructor(
+    private platform: Platform,
     private formBuilder: FormBuilder,
     private authService: AuthService
   ) { }
@@ -21,6 +23,16 @@ export class HomePage implements OnInit {
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(6)]]
     })
+  }
+
+  ngAfterViewInit(): void {
+    this.backButtonSubscription = this.platform.backButton.subscribe(() => {
+      navigator['app'].exitApp();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.backButtonSubscription.unsubscribe();
   }
 
   submitLoginForm() {
