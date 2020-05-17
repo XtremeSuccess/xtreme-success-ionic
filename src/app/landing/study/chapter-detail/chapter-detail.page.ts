@@ -29,7 +29,6 @@ export class ChapterDetailPage implements OnInit {
   getChapterDetails(id: number) {
     this.subjectService.getSingleChapter(id).subscribe((data: Chapter) => {
       this.chapter = data;
-      console.log(this.chapter.chapter_details.text)
     });
   }
 

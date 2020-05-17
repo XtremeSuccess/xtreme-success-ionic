@@ -1,9 +1,52 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>about</ion-title>
+    <ion-title>About</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content [fullscreen]="true">
+  <ion-header [translucent]="false" collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">About</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-text>
+    <h1 class="xtreme-success"><span class="red-text">Xtreme</span> <span class="slim-text"> Success</span></h1>
+  </ion-text>
+  <ion-text>
+    <p class="xtreme-success">
+      XtremeSucess is a part of WebEdutech Pvt. Ltd. <br> All contents here are copyrighted by WebEdutech Pvt. Ltd.
+    </p>
+  </ion-text>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>App Related Queries</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-icon slot="start" name="call-outline"></ion-icon>
+      <ion-label>
+        <h3><a href="tel:+919876543210">+91-9876543210</a></h3>
+        <p>Call from 9AM to 6:30PM</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="mail-outline"></ion-icon>
+      <ion-label>
+        <h3><a href="mailto:webedutech.pvtltd@gmail.com">webedutech.pvtltd@gmail.com</a></h3>
+        <p>Call from 9AM to 6:30PM</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="card-outline"></ion-icon>
+      <ion-label>
+        <h3>Payments Provider</h3>
+        <p>Razorpay</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
