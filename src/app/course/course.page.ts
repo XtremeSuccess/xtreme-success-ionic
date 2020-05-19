@@ -12,6 +12,8 @@ import { NavController, AlertController } from '@ionic/angular';
 
 declare var RazorpayCheckout: any;
 
+//TODO: Add pending orders system in order page
+
 @Component({
   selector: 'app-course',
   templateUrl: './course.page.html',
@@ -66,6 +68,24 @@ export class CoursePage implements OnInit {
     );
   }
 
+  razorpaySuccessHandler(response: any) {
+    console.log(response);
+    //TODO: Send the checksum to the server
+  }
+
+  addSubscription(payment_id) {
+    let date: Date = new Date();
+    let sub: any = {
+      payment_id: payment_id,
+      start_date: date.toISOString(),
+      end_date: new Date(date.setFullYear(date.getFullYear() + this.course.duration)).toISOString(),
+      course: this.course.id
+    }
+    this.subscriptionService.setSubscription(sub).subscribe((data: any) => {
+      this.updateUserDetails(this.user.user_detail.id, { subscription: data.id });
+    });
+  }
+
   payWithRazorpay(course: Course, order: Order) {
     var options = {
       description: `Subscribe to ${course.name}`,
@@ -99,25 +119,13 @@ export class CoursePage implements OnInit {
       }).then(alert => alert.present());
     }
 
-    const onSuccss = (payment_id) => {
-      let date: Date = new Date();
-      let sub: any = {
-        payment_id: payment_id,
-        start_date: date.toISOString(),
-        end_date: new Date(date.setFullYear(date.getFullYear() + this.course.duration)).toISOString(),
-        course: course.id
-      }
-      this.subscriptionService.setSubscription(sub).subscribe((data: any) => {
-        this.updateUserDetails(this.user.user_detail.id, { subscription: data.id });
-      });
-    }
-
     var cancelCallback = function (error) {
       let msg: string = error.description + ' (Error ' + error.code + ')'
       showAlert('Payment Failed', msg);
     };
-
-    RazorpayCheckout.open(options, onSuccss, cancelCallback);
+    RazorpayCheckout.on('payment.success', this.razorpaySuccessHandler);
+    RazorpayCheckout.on('payment.cancel', cancelCallback);
+    RazorpayCheckout.open(options);
   }
 
   updateUserDetails(id: number, data: any) {
