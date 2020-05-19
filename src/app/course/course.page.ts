@@ -1,3 +1,5 @@
+import { OrdersService } from './../services/orders/orders.service';
+import { Order } from './../models/orders/order';
 import { UserService } from './../services/user/user.service';
 import { SubscriptionService } from './../services/subscription/subscription.service';
 import { Storage } from '@ionic/storage';
@@ -29,6 +31,7 @@ export class CoursePage implements OnInit {
     private readonly courseService: CourseService,
     private readonly subscriptionService: SubscriptionService,
     private readonly userService: UserService,
+    private readonly ordersService: OrdersService,
     private readonly storage: Storage,
     private readonly navController: NavController,
   ) { }
@@ -48,20 +51,29 @@ export class CoursePage implements OnInit {
     this.courseService.getSingleCourse(id).subscribe((data: any) => {
       this.course = data;
       this.courseName = data.name;
-    })
+    });
   }
 
   backButtonClicked() {
     this.navController.pop()
   }
 
-  payWithRazorpay(course: Course) {
+  createOrder(course: Course) {
+    this.ordersService.getOrderDetails(course.price).subscribe(
+      (order: Order) => {
+        this.payWithRazorpay(course, order);
+      }
+    );
+  }
+
+  payWithRazorpay(course: Course, order: Order) {
     var options = {
       description: `Subscribe to ${course.name}`,
       image: 'https://i.imgur.com/3g7nmJC.png',
-      currency: "INR",
-      key: "rzp_test_1DP5mmOlF5G5ag", // your Key Id from Razorpay dashboard
-      amount: course.price * 100,
+      currency: order.currency,
+      key: "rzp_test_FFexwWi4LsHnuc", // your Key Id from Razorpay dashboard
+      amount: order.amount,
+      order_id: order.id,
       name: course.name,
       prefill: {
         email: this.user.email,

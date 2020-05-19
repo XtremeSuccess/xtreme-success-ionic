@@ -17,7 +17,7 @@
     <p class="text-margined discount-text"><s>Rs. {{course?.price * 1.50}}</s></p>
     <h1 class="text-margined price-text">Rs. {{course?.price}} only</h1>
   </ion-text>
-  <ion-button class="buy-button" color="danger" expand="block" (click)="payWithRazorpay(course)">
+  <ion-button class="buy-button" color="danger" expand="block" (click)="createOrder(course)">
     Buy Now
   </ion-button>
   <ion-button *ngIf="purchased" class="buy-button" color="success" expand="block" routerLink="/landing/tabs/study">
