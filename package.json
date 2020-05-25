@@ -30,6 +30,7 @@
     "com.razorpay.cordova": "git+https://github.com/razorpay/razorpay-cordova.git",
     "cordova-android": "^8.1.0",
     "cordova-browser": "6.0.0",
+    "cordova-plugin-splashscreen": "^5.0.3",
     "cordova-sqlite-storage": "^5.0.0",
     "core-js": "^2.5.4",
     "ngx-markdown": "^8.2.2",
@@ -76,7 +77,8 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "browser",

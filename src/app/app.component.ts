@@ -2,8 +2,8 @@ import { Router } from '@angular/router';
 import { AuthService } from './services/auth/auth.service';
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
-// import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Platform, NavController } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
@@ -14,10 +14,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 export class AppComponent {
   constructor(
     private platform: Platform,
-    // private splashScreen: SplashScreen,
+    private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authService: AuthService,
-    private router: Router
+    private router: NavController
   ) {
     this.initializeApp();
   }
@@ -25,13 +25,15 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      // this.splashScreen.hide();
+
 
       this.authService.authenticationState.subscribe(state => {
         if (state) {
-          this.router.navigate(['/landing']);
+          this.router.navigateRoot(['/landing']);
+          this.splashScreen.hide();
         } else {
-          this.router.navigate(['/home']);
+          this.router.navigateRoot(['/home']);
+          this.splashScreen.hide();
         }
       });
     });

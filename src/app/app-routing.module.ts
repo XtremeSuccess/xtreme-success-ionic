@@ -1,3 +1,4 @@
+import { AuthGuardLoginService } from './services/auth/auth-guard-login.service';
 import { AppComponent } from './app.component';
 import { AuthGuardService } from './services/auth/auth-guard.service';
 import { NgModule } from '@angular/core';
@@ -6,11 +7,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+    canActivate: [AuthGuardLoginService]
   },
   {
     path: '',
-    component: AppComponent,
+    redirectTo: '/landing',
     pathMatch: 'full'
   },
   {
@@ -28,7 +30,11 @@ const routes: Routes = [
   },
   {
     path: 'course',
-    loadChildren: () => import('./course/course.module').then( m => m.CoursePageModule)
+    loadChildren: () => import('./course/course.module').then(m => m.CoursePageModule)
+  },
+  {
+    path: 'checkout',
+    loadChildren: () => import('./checkout/checkout.module').then( m => m.CheckoutPageModule)
   },
 ];
 

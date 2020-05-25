@@ -30,7 +30,6 @@ export class StudyPage implements OnInit {
   ngOnInit() {
     this.storage.get('user').then((user: string) => {
       this.user = JSON.parse(user);
-      this.user.created_at = new Date(this.user.created_at).toLocaleDateString();
       this.subscriptionService.getSubscription(this.user.user_detail.subscription).subscribe(
         (subscription: Subscription) => {
           this.courseService.getSingleCourse(subscription.course.id).subscribe((data: Course) => {

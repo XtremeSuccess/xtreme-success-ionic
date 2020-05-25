@@ -6,7 +6,7 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { MathJaxModule } from 'ngx-mathjax';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-// import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
@@ -50,7 +50,7 @@ export function jwtOptionsFactory(storage) {
   ],
   providers: [
     StatusBar,
-    // SplashScreen,
+    SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]
