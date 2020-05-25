@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="backButtonCliked()"></ion-back-button>
+    </ion-buttons>
     <ion-title>Checkout</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -8,13 +11,11 @@
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle>Product Details</ion-card-subtitle>
-      <ion-card-title>All Subjects WB Class 10</ion-card-title>
+      <ion-card-title>{{course?.name}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum in similique quisquam voluptatum accusamus
-        dolores praesentium esse soluta nihil, quibusdam quo, ea reprehenderit vitae excepturi doloremque cum suscipit.
-        Architecto, fuga.
+        {{course?.description}}
       </p>
       <p><b>Subscription for 1 Year</b></p>
     </ion-card-content>
@@ -24,9 +25,9 @@
       <ion-card-title>User Details</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p><b>Name : </b> Aurghyadip Kundu</p>
-      <p><b>Mobile Number : </b> 7044475070</p>
-      <p><b>Address : </b> P-38, Nivedita Park, Kolkata - 96</p>
+      <p><b>Name : </b> {{user?.user_detail.firstname}} {{user?.user_detail.lastname}}</p>
+      <p><b>Mobile Number : </b> {{user?.user_detail.mobile_number}}</p>
+      <p><b>Address : </b> {{user?.user_detail.address}}</p>
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -38,20 +39,21 @@
         <ion-item>
           <ion-label>
             <h3>Course Name</h3>
-            <p>All Subjects WB Class 10</p>
+            <p>{{course?.name}}</p>
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>
             <h3>Price</h3>
-            <p>{{ 300 | currency:'INR'}}</p>
+            <p>{{ course?.price | currency:'INR'}}</p>
           </ion-label>
         </ion-item>
       </ion-list>
-      <ion-button color="success" class="center-button">
-        <ion-icon slot="start" name="card-outline"></ion-icon>
-        Checkout
-      </ion-button>
     </ion-card-content>
   </ion-card>
+  <ion-fab class="fab-margin" vertical="bottom" horizontal="center" slot="fixed" (click)="createOrder()">
+    <ion-fab-button color="success">
+      <ion-icon name="card-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

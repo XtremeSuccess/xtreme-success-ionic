@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { Subscription } from './../models/subscription/subscription';
 import { User } from './../models/user/user';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, AlertController } from '@ionic/angular';
@@ -10,8 +12,6 @@ import { CourseService } from '../services/course/course.service';
 import { Order } from '../models/orders/order';
 import { Course } from '../models/courses/course';
 import { UserDetail } from '../models/user/user';
-import { error } from 'util';
-
 
 declare var RazorpayCheckout: any;
 
@@ -23,8 +23,10 @@ declare var RazorpayCheckout: any;
 export class CheckoutPage implements OnInit {
 
   course: Course;
+  order: Order;
   user: User;
   courseIdParam: number;
+  orderIdParam: number;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -34,12 +36,27 @@ export class CheckoutPage implements OnInit {
     private readonly ordersService: OrdersService,
     private readonly storage: Storage,
     private readonly navController: NavController,
-  ) { }
+    private readonly http: HttpClient
+  ) {
+    this.storage.get('user').then((data: string) => {
+      this.user = JSON.parse(data);
+    });
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params: any) => {
       this.courseIdParam = params["id"];
-      this.getCourseDetails(this.courseIdParam);
+      this.orderIdParam = params["order"];
+      if (this.courseIdParam && this.orderIdParam) {
+        this.ordersService.getSingleOrder(this.orderIdParam).subscribe(
+          (order: Order) => {
+            this.order = order;
+            this.course = order.course;
+          }
+        );
+      } else if (this.course) {
+        this.getCourseDetails(this.courseIdParam);
+      }
     }, (error: any) => console.log(error))
   }
 
@@ -51,41 +68,27 @@ export class CheckoutPage implements OnInit {
     )
   }
 
-  createOrder(course: Course) {
-    this.ordersService.getOrderDetails(course.price).subscribe(
-      (order: Order) => {
-        this.payWithRazorpay(course, order);
-      }
-    );
-  }
-
-  razorpaySuccessHandler(response: any) {
-    console.log(response);
-    //TODO: Send the checksum to the server
-  }
-
-  addSubscription(payment_id) {
-    let date: Date = new Date();
-    let sub: any = {
-      payment_id: payment_id,
-      start_date: date.toISOString(),
-      end_date: new Date(date.setFullYear(date.getFullYear() + this.course.duration)).toISOString(),
-      course: this.course.id
+  createOrder() {
+    if (this.order) {
+      this.payWithRazorpay(this.order);
+    } else {
+      this.ordersService.getOrderDetails(this.course.price, this.course.id).subscribe(
+        (order: Order) => {
+          this.payWithRazorpay(order);
+        }
+      );
     }
-    this.subscriptionService.setSubscription(sub).subscribe((data: any) => {
-      this.updateUserDetails(this.user.user_detail.id, { subscription: data.id });
-    });
   }
 
-  payWithRazorpay(course: Course, order: Order) {
+  payWithRazorpay(order: Order) {
     var options = {
-      description: `Subscribe to ${course.name}`,
+      description: `Subscribe to ${order.course.name}`,
       image: 'https://i.imgur.com/3g7nmJC.png',
       currency: order.currency,
       key: "rzp_test_FFexwWi4LsHnuc", // your Key Id from Razorpay dashboard
       amount: order.amount,
-      order_id: order.id,
-      name: course.name,
+      order_id: order.order_id,
+      name: order.course.name,
       prefill: {
         email: this.user.email,
         contact: this.user.user_detail.mobile_number,
@@ -119,8 +122,25 @@ export class CheckoutPage implements OnInit {
     RazorpayCheckout.open(options);
   }
 
+  razorpaySuccessHandler(response: any) {
+    let orderS: OrdersService = new OrdersService()
+  }
+
+  addSubscription(data: any) {
+    let date: Date = new Date();
+    let sub: any = {
+      start_date: date.toISOString(),
+      end_date: new Date(date.setFullYear(date.getFullYear() + data.course.duration)).toISOString(),
+      course: data.course.id,
+      order: data.id
+    }
+    this.subscriptionService.setSubscription(sub).subscribe((data: any) => {
+      this.updateUserDetails(this.user.user_detail.id, { subscription: data.id });
+    });
+  }
+
   updateUserDetails(id: number, data: any) {
-    this.userService.updateUserDetails(id, data).subscribe((userDetail: UserDetail) => {
+    this.userService.updateUserDetails(id, data).subscribe((_userDetail: UserDetail) => {
       this.user.user_detail.subscription = data.subscription;
       this.storage.remove('user');
       this.storage.set('user', JSON.stringify(this.user)).then(() => {
@@ -128,5 +148,10 @@ export class CheckoutPage implements OnInit {
       });
     });
   }
+
+  backButtonCliked() {
+    this.navController.pop();
+  }
+
 
 }

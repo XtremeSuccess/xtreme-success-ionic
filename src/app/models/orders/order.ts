@@ -1,15 +1,19 @@
+import { User } from '../user/user';
+import { Course } from '../courses/course';
+
 export class Order {
-    id: string;
-    entity: string;
-    amount: number;
-    amount_paid: number;
-    amount_due: number;
+    id: number;
+    order_id: string;
     currency: string;
     receipt: string;
     offer_id: string;
-    offers: string[];
     status: string;
+    amount: number;
+    amount_paid: number;
+    amount_due: number;
     attempts: number;
-    notes: any[];
-    created_at: number;
+    user: User;
+    course: Course;
+    created_at: string;
+    updated_at: string;
 }

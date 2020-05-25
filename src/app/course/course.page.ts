@@ -60,13 +60,13 @@ export class CoursePage implements OnInit {
     this.navController.pop()
   }
 
-  createOrder(course: Course) {
-    this.ordersService.getOrderDetails(course.price).subscribe(
-      (order: Order) => {
-        this.payWithRazorpay(course, order);
-      }
-    );
-  }
+  // createOrder(course: Course) {
+  //   this.ordersService.getOrderDetails(course.price).subscribe(
+  //     (order: Order) => {
+  //       this.payWithRazorpay(course, order);
+  //     }
+  //   );
+  // }
 
   razorpaySuccessHandler(response: any) {
     console.log(response);
