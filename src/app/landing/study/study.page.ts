@@ -48,4 +48,8 @@ export class StudyPage implements OnInit {
     console.log('logout clicked');
     this.authService.logout();
   }
+
+  goToCheckout() {
+    this.navController.navigateForward('/checkout');
+  }
 }
