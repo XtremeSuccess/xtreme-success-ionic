@@ -11,9 +11,22 @@ export class OrdersService {
     private readonly http: HttpClient
   ) { }
 
-  getOrderDetails(amount: number) {
+  getOrderDetails(amount: number, course: number) {
     return this.http.post(`${url}/orders`, {
-      amount: amount
+      amount: amount,
+      course: course
     });
+  }
+
+  verifyOrder(orderVerifyData: any) {
+    return this.http.post(`${url}/orders/verify`, orderVerifyData);
+  }
+
+  getOrdersByParams(data: any) {
+    return this.http.get(`${url}/orders`, { params: data });
+  }
+
+  getSingleOrder(orderId: number) {
+    return this.http.get(`${url}/orders/${orderId}`);
   }
 }

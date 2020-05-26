@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Orders</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="orders">
+    <ion-list-header>
+      <ion-label>List of all the orders</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let order of orders" (click)="goToCheckout(order.course.id, order)">
+      <ion-badge slot="end" [color]="order.status === 'paid' ? 'success': 'danger'">
+        {{ (order.status === 'paid'? 'paid': 'due') | uppercase}}
+      </ion-badge>
+      <ion-label>
+        <h3>{{order.course.name}}</h3>
+        <p>{{order.order_id}}</p>
+        <p>{{(order.amount / 100) | currency:'INR'}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
