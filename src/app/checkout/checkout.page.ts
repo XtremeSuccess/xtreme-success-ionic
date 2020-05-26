@@ -84,7 +84,7 @@ export class CheckoutPage implements OnInit {
     var options = {
       description: `Subscribe to ${order.course.name}`,
       currency: order.currency,
-      key: rzKey,
+      key: `${process.env.RZ_KEY || rzKey}`,
       amount: order.amount,
       order_id: order.order_id,
       name: 'WebEdutech Private Limited',
