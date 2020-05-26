@@ -36,7 +36,6 @@ export class CheckoutPage implements OnInit {
     private readonly ordersService: OrdersService,
     private readonly storage: Storage,
     private readonly navController: NavController,
-    private readonly http: HttpClient
   ) {
     this.storage.get('user').then((data: string) => {
       this.user = JSON.parse(data);
@@ -83,24 +82,15 @@ export class CheckoutPage implements OnInit {
   payWithRazorpay(order: Order) {
     var options = {
       description: `Subscribe to ${order.course.name}`,
-      image: 'https://i.imgur.com/3g7nmJC.png',
       currency: order.currency,
       key: "rzp_test_FFexwWi4LsHnuc", // your Key Id from Razorpay dashboard
       amount: order.amount,
       order_id: order.order_id,
-      name: order.course.name,
+      name: 'WebEdutech Private Limited',
       prefill: {
         email: this.user.email,
         contact: this.user.user_detail.mobile_number,
         name: `${this.user.user_detail.firstname} ${this.user.user_detail.lastname}`
-      },
-      theme: {
-        color: '#F37254'
-      },
-      modal: {
-        ondismiss: function () {
-          showAlert('Payment Error', 'Payment Dismissed')
-        }
       }
     };
 
@@ -113,40 +103,37 @@ export class CheckoutPage implements OnInit {
       }).then(alert => alert.present());
     }
 
-    var cancelCallback = function (error) {
+
+    RazorpayCheckout.on('payment.success', (response: any) => {
+      this.ordersService.verifyOrder(response).subscribe(
+        (data: Order) => {
+          let date: Date = new Date();
+          let sub: any = {
+            start_date: date.toISOString(),
+            end_date: new Date(date.setFullYear(date.getFullYear() + data.course.duration)).toISOString(),
+            course: data.course.id,
+            order: data.id
+          }
+          this.subscriptionService.setSubscription(sub).subscribe((sub: Subscription) => {
+            this.userService.updateUserDetails(this.user.user_detail.id, { subscription: sub.id })
+              .subscribe((_userDetail: UserDetail) => {
+                this.user.user_detail.subscription = sub.id;
+                this.storage.remove('user');
+                this.storage.set('user', JSON.stringify(this.user)).then(() => {
+                  window.location.replace(window.location.origin);
+                });
+              });
+          });
+        }
+      );
+    });
+
+    RazorpayCheckout.on('payment.cancel', (error: any) => {
       let msg: string = error.description + ' (Error ' + error.code + ')'
       showAlert('Payment Failed', msg);
-    };
-    RazorpayCheckout.on('payment.success', this.razorpaySuccessHandler);
-    RazorpayCheckout.on('payment.cancel', cancelCallback);
+    });
+
     RazorpayCheckout.open(options);
-  }
-
-  razorpaySuccessHandler(response: any) {
-    let orderS: OrdersService = new OrdersService()
-  }
-
-  addSubscription(data: any) {
-    let date: Date = new Date();
-    let sub: any = {
-      start_date: date.toISOString(),
-      end_date: new Date(date.setFullYear(date.getFullYear() + data.course.duration)).toISOString(),
-      course: data.course.id,
-      order: data.id
-    }
-    this.subscriptionService.setSubscription(sub).subscribe((data: any) => {
-      this.updateUserDetails(this.user.user_detail.id, { subscription: data.id });
-    });
-  }
-
-  updateUserDetails(id: number, data: any) {
-    this.userService.updateUserDetails(id, data).subscribe((_userDetail: UserDetail) => {
-      this.user.user_detail.subscription = data.subscription;
-      this.storage.remove('user');
-      this.storage.set('user', JSON.stringify(this.user)).then(() => {
-        window.location.replace(window.location.origin);
-      });
-    });
   }
 
   backButtonCliked() {

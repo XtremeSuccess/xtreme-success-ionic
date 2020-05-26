@@ -5,7 +5,17 @@
 }
 
 .loginFormText {
+  display: block;
   text-align: center;
   justify-content: center;
-  align-items: center;
+  align-self: center;
+}
+
+ion-img {
+  width: 50%;
+  height: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
