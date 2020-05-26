@@ -1,5 +1,4 @@
-import { rzKey } from './authkeys';
-import { HttpClient } from '@angular/common/http';
+// import { rzKey } from './authkeys';
 import { Subscription } from './../models/subscription/subscription';
 import { User } from './../models/user/user';
 import { ActivatedRoute } from '@angular/router';
@@ -84,7 +83,7 @@ export class CheckoutPage implements OnInit {
     var options = {
       description: `Subscribe to ${order.course.name}`,
       currency: order.currency,
-      key: `${"rzp_test_FFexwWi4LsHnuc" || rzKey}`,
+      key: "rzp_test_FFexwWi4LsHnuc",
       amount: order.amount,
       order_id: order.order_id,
       name: 'WebEdutech Private Limited',
