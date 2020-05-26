@@ -6,9 +6,9 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -19,15 +19,22 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    - name: Use coturiv/setup-ionic
-      uses: coturiv/setup-ionic@v1
-      with:
-        cordova-version: 9
+      - name: Use coturiv/setup-ionic
+        uses: coturiv/setup-ionic@v1
+        with:
+          cordova-version: 9
 
-    - name: Build
-      run: |
-        npm install
-        ionic cordova build android --prod
+      - name: Build
+        run: |
+          npm install
+          ionic cordova build android --prod
+
+      - uses: yanzay/notify-telegram@v0.1.0
+        if: always()
+        with:
+          chat: ${{ secrets.chat }} # user id or channel name secret
+          token: ${{ secrets.token }} # token secret
+          status: ${{ job.status }} # do not modify this line
